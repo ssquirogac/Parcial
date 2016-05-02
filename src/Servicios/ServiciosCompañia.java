@@ -7,9 +7,11 @@ package Servicios;
 
 import Dao.Dao;
 import Datos.Asset;
+import Datos.Cash;
 import Datos.ShareAsset;
 import Datos.Compañia;
 import Datos.DividentStock;
+import Datos.MutualFund;
 import Datos.Stock;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -35,12 +37,34 @@ public class ServiciosCompañia {
         return this.compañia.getAssets();
     }
     
-    public double valorTotalMercado(Stock stock, DividentStock divStock){
-        if(stock.symbol.equals("GOOGLE")&&divStock.symbol.equals("GOOGLE")){
-            int c = 0;
-            for(int i=0; i<this.compañia.getAssets().size(); i++){
-                
-            }
-        }
+    public double valorTotalMercadoStocksDivStocks(ArrayList<ShareAsset> shareAssets){
+       double c=0;
+       for(int i=0; i<shareAssets.size();i++){
+        if((shareAssets.get(i) instanceof Stock)||(shareAssets.get(i) instanceof DividentStock)){
+          if(shareAssets.get(i).getSymbol().equals("GOOGLE")||shareAssets.get(i).getSymbol().equals("SAMSUMG")){
+            c+=shareAssets.get(i).getMarketValue();
+          } 
+        }    
+       }
+       return c;
+    }
+    
+    public double valorTotalMercadoAsset(ArrayList<ShareAsset> shareAssets, ArrayList<Cash> cash){
+      double c=0;
+      for(int i=0; i<shareAssets.size();i++){
+        c+=shareAssets.get(i).getMarketValue();
+      }
+      for(int i=0; i<cash.size(); i++){
+        c+=cash.get(i).getMarketValue();
+      }
+      return c;
+    }
+    
+    public double beneficioTotalAsset(ArrayList<ShareAsset> shareAssets){
+      double c=0;
+      for(int i=0; i<shareAssets.size();i++){
+        c+=shareAssets.get(i).getProfit();
+      }
+      return c;
     }
 }
